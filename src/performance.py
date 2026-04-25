@@ -56,3 +56,37 @@ def annualised_volatility(monthly_returns: pd.Series) -> float:
         Annualised volatility as a decimal.
     """
     return monthly_returns.std() * np.sqrt(12)
+
+def max_drawdown(monthly_returns: pd.Series) -> float:
+    """
+    Maximum peak-to-trough drawdown of cumulative wealth.
+
+    Formula: min over t of (W_t - peak(W)) / peak(W)
+    where W_t is the cumulative wealth index.
+
+    Args:
+        monthly_returns: monthly decimal returns.
+
+    Returns:
+        Max drawdown as a (negative) decimal. e.g. -0.25 means -25%.
+    """
+    wealth = (1 + monthly_returns).cumprod()    # Growth-of-$1 path
+    rolling_peak = wealth.cummax()              # Highest value seen so far
+    drawdown = (wealth - rolling_peak) / rolling_peak
+    return drawdown.min()
+
+def wealth_index(monthly_returns: pd.Series, start_value: float = 1.0) -> pd.Series:
+    """
+    Cumulative wealth index from monthly returns. Useful for plotting
+    'growth of $1' charts.
+
+    Formula: W_t = start_value * cumprod(1 + r_t)
+
+    Args:
+        monthly_returns: monthly decimal returns.
+        start_value:     starting wealth (default 1.0).
+
+    Returns:
+        Series of cumulative wealth values over time.
+    """
+    return start_value * (1 + monthly_returns).cumprod()
