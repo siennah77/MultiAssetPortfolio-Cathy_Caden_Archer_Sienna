@@ -90,3 +90,48 @@ def wealth_index(monthly_returns: pd.Series, start_value: float = 1.0) -> pd.Ser
         Series of cumulative wealth values over time.
     """
     return start_value * (1 + monthly_returns).cumprod()
+
+# ── Manager-vs-benchmark metrics ──────────────────────────────────────────────
+
+def sharpe_ratio(monthly_returns: pd.Series, monthly_rf: pd.Series) -> float:
+    """
+    Sharpe ratio: excess return per unit of total volatility.
+
+    Formula: (R_ann - Rf_ann) / sigma_ann
+
+    Both the portfolio return and the risk-free rate are annualised
+    geometrically before subtraction so the numerator is consistent.
+
+    Args:
+        monthly_returns: monthly portfolio returns.
+        monthly_rf:      monthly risk-free rate series.
+
+    Returns:
+        Sharpe ratio (dimensionless).
+    """
+    portfolio_ann = annualised_return(monthly_returns)
+    rf_ann        = annualised_return(monthly_rf)
+    vol_ann       = annualised_volatility(monthly_returns)
+    return (portfolio_ann - rf_ann) / vol_ann
+
+def active_return(portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:
+    """
+    Annualised active return — the annual amount by which the portfolio
+    outperformed (or underperformed) its benchmark.
+
+    Formula: mean(r_P - r_B) * 12
+
+    We use arithmetic annualisation here (not geometric) because this
+    return pairs with tracking error to form the Information Ratio. Both
+    sides of that ratio must use the same annualisation method to be
+    mathematically consistent.
+
+    Args:
+        portfolio_returns: monthly portfolio returns.
+        benchmark_returns: monthly benchmark returns.
+
+    Returns:
+        Active return as a decimal.
+    """
+    active = portfolio_returns - benchmark_returns
+    return active.mean() * 12
