@@ -150,3 +150,23 @@ def run_apra_checks(data: dict) -> pd.DataFrame:
     ]
 
     return results
+
+# Visual diagnostics 
+
+def plot_diagnostics(data: dict) -> None:
+    """
+    Generates key APRA diagnostic charts:
+    - Wealth index
+    - Drawdown profile
+    - Rolling volatility
+
+    Args:
+        data: dict returned by data_loader.load_all()
+    """
+    import matplotlib.pyplot as plt
+
+    managers     = data["managers"]
+    taa_weights  = data["taa_weights"]
+
+    portfolio_returns = _compute_portfolio_returns(managers, taa_weights)
+
