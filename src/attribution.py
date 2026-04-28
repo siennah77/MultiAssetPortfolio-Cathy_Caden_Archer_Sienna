@@ -54,9 +54,9 @@ def attribution_summary(
 
     return {
         'Sleeve':            sleeve_name,
-        'Allocation Effect': allocation.sum,
-        'Selection Effect':  selection.sum,
-        'Total':             total.sum,
+        'Allocation Effect': allocation.sum(),
+        'Selection Effect':  selection.sum(),
+        'Total':             total.sum(),
     }
 
 def all_sleeves_attribution(
