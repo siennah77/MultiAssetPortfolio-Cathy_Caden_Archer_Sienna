@@ -59,3 +59,24 @@ def attribution_summary(
         'Total':             total,
     }
 
+def all_sleeves_attribution(
+    manager_returns: pd.DataFrame,
+    benchmark_returns: pd.DataFrame,
+    sleeves: list,
+    taa_weights: dict,
+    saa_weights: dict,
+) -> pd.DataFrame:
+    """
+    Applies Brinson framework across all sleeves and
+    returns a consolidated summary DataFrame.
+
+    Args:
+        sleeves:            List of sleeve names 
+        manager_returns:    Monthly manager returns for the sleeve.
+        benchmark_returns:  Monthly benchmark returns for the sleeve.
+        taa_weights:        Tactical Asset Allocation (TAA) weight for the sleeve.
+        saa_weights:        Strategic Asset Allocation (SAA) weight for the sleeve.
+
+    Returns:
+        DataFrame containing attribution metrics for all sleeves.
+    """
