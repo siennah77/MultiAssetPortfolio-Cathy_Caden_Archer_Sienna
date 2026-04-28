@@ -43,7 +43,7 @@ def attribution_summary(
         keyed by display name.
     """
 
-   # ------ Allocation Effect -------
+    # ------ Allocation Effect -------
     allocation = (taa_weights - saa_weights) * benchmark_returns
 
     # ------ Selection Effect -------
