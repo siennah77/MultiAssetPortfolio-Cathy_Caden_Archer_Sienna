@@ -80,3 +80,15 @@ def all_sleeves_attribution(
     Returns:
         DataFrame containing attribution metrics for all sleeves.
     """
+    rows = [] 
+    for sleeve in sleeves: 
+        result = attribution_summary(
+            sleeve_name=sleeve,
+            portfolio_returns=manager_returns[sleeve],
+            benchmark_returns=benchmark_returns[sleeve],
+            taa_weights=taa_weights[sleeve],
+            saa_weights=saa_weights[sleeve]
+        )
+        rows.append(result)  
+
+    return pd.DataFrame(rows).set_index('Sleeve')  
