@@ -17,6 +17,7 @@ Two summary helpers (sleeve_summary, all_sleeves_summary) bundle the
 metrics into a tidy DataFrame for the report.
 """
 
+
 import numpy as np
 import pandas as pd
 
@@ -43,7 +44,7 @@ def attribution_summary(
         keyed by display name.
     """
 
-   # ------ Allocation Effect -------
+    # ------ Allocation Effect -------
     allocation = (taa_weights - saa_weights) * benchmark_returns
 
     # ------ Selection Effect -------
@@ -54,9 +55,9 @@ def attribution_summary(
 
     return {
         'Sleeve':            sleeve_name,
-        'Allocation Effect': allocation,
-        'Selection Effect':  selection,
-        'Total':             total,
+        'Allocation Effect': allocation.sum(),
+        'Selection Effect':  selection.sum(),
+        'Total':             total.sum(),
     }
 
 def all_sleeves_attribution(
